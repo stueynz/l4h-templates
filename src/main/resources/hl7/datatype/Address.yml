@@ -1,0 +1,163 @@
+#
+# (C) Copyright IBM Corp. 2020, 2021
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#Address derived from XAD - Extended Address
+# Customisations for Te Whatu Ora Te Pae Hauora o Ruahine o Tararua MidCentral
+#
+# 10-Aug-2023 - WebPAS likes to send weird PID-11 entries, where some repetitions don't actually contain a useful Address
+#             - WebPAS only uses address uses C = Residential and M = Mailing
+#             - WebPAS doesn't send address type - implied by address use
+#---
+
+line:
+     type: STRING
+     valueOf: 'GeneralUtils.makeStringArray( street, suiteApt, addressee)'
+     generateList: true
+     expressionType: JEXL
+     vars:
+          street: String, XAD.1
+          suiteApt: String, XAD.2
+          addressee: String, XAD.19
+
+city: 
+     condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: XAD.3
+     expressionType: HL7Spec
+     vars:
+          lines: String, XAD.1 + XAD.2 + XAD.19
+    
+state:
+     condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: XAD.4
+     expressionType: HL7Spec
+     vars:
+          lines: String, XAD.1 + XAD.2 + XAD.19
+
+postalCode: 
+     condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: XAD.5
+     expressionType: HL7Spec
+     vars:
+          lines: String, XAD.1 + XAD.2 + XAD.19
+
+# District should only be added for a patient address, and never for Organization.
+# NOTE: in future, this could be made a data value resolver and put in Patient.yml
+district:
+    #  Only process for patients.
+     condition: patient NOT_NULL
+     type: STRING
+     valueOf: 'GeneralUtils.getAddressDistrict( patientCounty, addressCountyParish, patient)'
+     expressionType: JEXL
+     vars:
+     # from Patient, if provided.
+      patientCounty: $distPatientCounty
+      addressCountyParish: String, XAD.9 | $distCountyParish 
+      patient: $distPatient
+
+country: 
+     condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: XAD.6
+     expressionType: HL7Spec    
+     vars:
+          lines: String, XAD.1 + XAD.2 + XAD.19
+
+# Go ask Java GeneralUtil (but not for CentralRegion)
+# use: 
+#      condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+#      type: STRING
+#      valueOf: 'GeneralUtils.getAddressUse( xad7Type, xad16TempIndicator, xad17BadIndicator)'
+#      expressionType: JEXL
+#      vars:
+#           xad7Type: String, XAD.7
+#           xad16TempIndicator: String, XAD.16
+#           xad17BadIndicator: String, XAD.17
+#           lines: String, XAD.1 + XAD.2 + XAD.19
+
+# WebPAS only uses C - Current and M - Mailing  (which are both of use HOME for patients)
+use: 
+     condition: $xad7Type NOT_NULL && $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: $val
+     vars:
+          xad7Type: String, XAD.7
+          lines: String, XAD.1 + XAD.2 + XAD.19
+     constants:
+          val: home
+
+# Go ask Java GeneralUtil (but not for CentralRegion)
+# type: 
+#      condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+#      type: STRING
+#      valueOf: 'GeneralUtils.getAddressType( xad7Type, xad18Usage)'
+#      expressionType: JEXL
+#      vars:
+#           xad7Type: String, XAD.7
+#           xad18Usage: String, XAD.18
+#           lines: String, XAD.1 + XAD.2 + XAD.19
+#
+# WebPAS only uses C - Current == PHYSICAL and M - Mailing == POSTAL;    
+# We can't see the presence/state of the 'other' address so can't decide to use BOTH
+type_1: 
+     condition: $xad7Type EQUALS C && $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: $val
+     vars:
+          xad7Type: String, XAD.7
+          lines: String, XAD.1 + XAD.2 + XAD.19
+     constants:
+          val: physical
+
+type_2: 
+     condition: $xad7Type EQUALS M && $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+     type: STRING
+     valueOf: $val
+     vars:
+          xad7Type: String, XAD.7
+          lines: String, XAD.1 + XAD.2 + XAD.19
+     constants:
+          val: postal
+
+
+# date range        
+period_1:
+    condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+    valueOf: datatype/Period
+    expressionType: resource
+    vars:
+       start: XAD.12.1 
+       end: XAD.12.2
+       lines: String, XAD.1 + XAD.2 + XAD.19
+
+# explicit date effective (start) and expiration (end)
+period_2:
+    condition: $lines NOT_NULL    # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+    valueOf: datatype/Period
+    expressionType: resource
+    vars:
+       start: XAD.13
+       end: XAD.14
+       lines: String, XAD.1 + XAD.2 + XAD.19
+
+# have we got a suburb?
+extension:
+  condition: $lines NOT_NULL && $suburb NOT_NULL     # Only if we've got at least one Address.Line  (WebPAS likes to send empty addresses)
+  vars:
+     suburb: String, XAD.8
+     lines: String, XAD.1 + XAD.2 + XAD.19     
+  generateList: true
+  expressionType: nested
+  expressions:
+    - condition: $value NOT_NULL
+      valueOf: extension/Extension
+      expressionType: resource
+      vars:
+        value: String, XAD.8
+      constants:
+        KEY_NAME_SUFFIX: String
+        urlValue: http://hl7.org.nz/fhir/StructureDefinition/suburb

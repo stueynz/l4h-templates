@@ -1,0 +1,77 @@
+#
+# (C) Copyright IBM Corp. 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# FHIR Resources to extract from RDE_O25 message
+---
+resources:
+  - resourceName: MessageHeader
+    segment: MSH
+    resourcePath: resource/MessageHeader
+    repeats: false
+    isReferenced: false
+
+  - resourceName: Patient
+    segment: .PID
+    group: PATIENT
+    resourcePath: resource/Patient
+    isReferenced: true
+    repeats: false
+    additionalSegments:
+      - .PD1
+      - MSH
+
+  - resourceName: Encounter
+    segment: .PATIENT_VISIT.PV1
+    resourcePath: resource/Encounter
+    isReferenced: true
+    group: PATIENT
+    repeats: false
+    additionalSegments:
+      - .PATIENT_VISIT.PV2
+      - MSH
+      - ORDER.OBSERVATION.OBX
+
+  - resourceName: Coverage
+    segment: .IN1
+    group: PATIENT.INSURANCE
+    resourcePath: resource/Coverage
+    repeats: true
+    additionalSegments:
+      - MSH
+      - PATIENT.PATIENT_VISIT.PV1
+      - .IN2            
+
+  - resourceName: MedicationRequest
+    segment: .RXE
+    resourcePath: resource/MedicationRequest
+    isReferenced: true
+    group: ORDER
+    repeats: true
+    additionalSegments:
+      - MSH
+      - .ORC
+      - .NTE
+      - PATIENT.PATIENT_VISIT.PV1
+      - PATIENT.PID
+      # RXO not included on purpose, only want to use RXE for RDE messages
+      # RXO content and NTEs associated with RXO are not processed
+
+  - resourceName: AllergyIntolerance
+    segment: PATIENT.AL1
+    resourcePath: resource/AllergyIntolerance
+    repeats: true
+    additionalSegments:
+      - MSH
+
+  - resourceName: Observation
+    segment: .OBSERVATION.OBX
+    group: ORDER
+    resourcePath: resource/Observation
+    repeats: true
+    isReferenced: true
+    additionalSegments:
+      - .ORC
+      - MSH
+      - .OBSERVATION.NTE

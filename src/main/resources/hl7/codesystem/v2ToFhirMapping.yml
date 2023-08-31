@@ -1,0 +1,564 @@
+#
+# (C) Copyright IBM Corp. 2020, 2022
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Mapping set named the same as the FHIR simplified class name (last segment)
+AllergyIntoleranceCategory:
+   AA: environment
+   DA: medication
+   EA: environment
+   FA: food
+   LA: environment
+   PA: environment
+AllergyIntoleranceCriticality:
+   MI: low
+   SV: high
+   U: unable-to-assess
+ObservationStatus:
+   C: corrected
+   D: cancelled
+   F: final
+   I: registered
+   P: preliminary
+   W: entered-in-error
+
+ServiceRequestStatus:
+   A: active
+   CA: revoked
+   CM: completed
+   DC: revoked
+   ER: entered-in-error
+   HD: on-hold
+   IP: active
+   SC: active
+      
+AdministrativeGender:
+   A: other
+   F: female
+   M: male
+   N: unknown
+   O: other
+   U: unknown
+
+ContactPointSystem:
+  PH: phone
+  FX: fax
+  CP: sms
+  BP: pager
+
+DiagnosticReportStatus:
+   A: partial
+   C: corrected
+   F: final
+   I: unknown
+   O: unknown
+   P: preliminary
+   R: partial
+   S: unknown
+   X: cancelled
+   Y: unknown
+   Z: unknown
+   
+ImmunizationStatus:
+  CP: completed
+  NA: not-done
+  PA: completed
+  RE: not-done
+  CM: completed
+  ER: entered-in-error
+  CA: not-done
+  DC: not-done
+  HD: not-done
+  IP: not-done
+  SC: not-done
+  RP: not-done
+  
+MessageReasonEncounter:
+   A01: admit
+   A03: discharge
+   A21: absent
+   A22: return
+   A02: moved
+   A06: moved
+   A07: moved
+   A08: edit
+   A28: edit
+   A31: edit
+
+SpecimenStatus:
+  Y: available
+  N: unavailable
+   
+NameUse:
+  A: anonymous
+  B: official
+  C: official
+  D: usual
+  I: official
+  L: official
+  M: maiden
+  N: nickname
+  S: anonymous
+  TEMP: temp
+  NOUSE: old
+  BAD: old
+   
+EncounterModeOfArrivalDisplay:
+  A: Ambulance
+  C: Car
+  F: On foot
+  H: Helicopter
+  O: Other
+  P: Public Transport
+  U: Unknown
+
+#Using Actcode for encounter.class
+V3ActCode:
+  E: EMER
+  I: IMP
+  P: PRENC
+  O: AMB
+
+V3MaritalStatus:
+  A: A
+  C: T
+  D: D
+  I: I
+  L: L
+  M: M
+  P: P
+  S: S
+  T: T
+  U: U
+  W: W
+
+DocumentReferenceStatus: #DocumenReference Status
+  #TXA.19
+  AV: current
+  CA: entered-in-error
+  OB: superseded
+  UN: current
+  #OBR.25
+  A: current
+  C: current
+  F: current
+  I: current
+  O: current
+  P: current
+  R: current
+  S: current
+  X: entered-in-error
+
+CompositionStatus: #DocumentReference docStatus
+  #TXA.17
+  AU: final
+  DI: preliminary
+  DO: preliminary
+  IN: preliminary
+  IP: preliminary
+  PA: preliminary
+  LA: final
+  #OBX.11
+  C: final
+  F: final
+  I: preliminary
+  P: preliminary
+  R: preliminary
+  S: preliminary
+  U: final
+  W: entered-in-error
+  # We are not mapping D,N,O,X - those values will result in this field not being set
+
+V3Race:
+  # American Indian or Alaska Native	
+  1002-5: 1002-5
+  # Asian
+  2028-9: 2028-9
+  # Black or African American
+  2054-5: 2054-5
+  # Native Hawaiian or Other Pacific Islander
+  2076-8: 2076-8
+  # White
+  2106-3: 2106-3
+
+V3ReligiousAffiliation:
+  # Not all V2.6 religions mapped exactly to FHIR codings.  ** indicates a best approximation or generalization
+  # All V2.6 religions are left as commented placeholders for future evaluation.
+  # Agnostic -> Agnosticism
+  AGN: 1004
+  # Atheist -> Athiesm
+  ATH: 1007
+  # Baha'i -> Babi & Baha'I faiths
+  BAH: 1008
+  # Brethren -> Brethren
+  BRE: 1062
+  # Buddhist -> ??
+  # BUD: NO REASONABLE MATCH, no generalized Buddhist
+  # Buddhist - Mahayana -> Mahayana
+  BMA: 1029
+  # Buddhist - Theravada -> Theravada
+  BTH: 1051
+  # Buddhist - Tantrayana	-> ??
+  # BTA: NO REASONABLE MATCH
+  # Buddhist - Other -> ??
+  # BOT:  NO REASONABLE MATCH, Does not match Zen Buddhism
+  # Chinese Folk Religionist
+  # CFR:   NO REASONABLE MATCH
+  # Christian	-> Christian (non-Catholic, non-specific)
+  CHR: 1013
+  # Christian - American Baptist Church -> ??
+  # ABC: NO GOOD MATCH
+  # Christian - African Methodist Episcopal -> Episcopalian
+  # AMT:  NO GOOD MATCH
+  # Christian - African Methodist Episcopal Zion-> Episcopalian
+  # AME:  NO GOOD MATCH
+  # Christian - Anglican -> Anglican
+  ANG: 1005
+  # Christian - Assembly of God -> Assembly of God
+  AOG: 1061
+  # Christian - Baptist -> Baptist
+  BAP: 1009
+  # Christian - Christian Reformed -> Reformed **
+  CRR: 1079
+  # Christian - Christian Science	-> Christian Scientist
+  CHS: 1063
+  # Christian - Christian Missionary Alliance	-> ??
+  # CMA: NO GOOD MATCH
+  # Christian - Church of Christ	-> Church of Christ
+  COC: 1064
+  # Christian - Church of God	-> Church of God
+  COG: 1065
+  # Christian - Church of God in Christ -> ??
+  # COI: NO CLEAR MAPPING
+  # Christian - Community	-> ??
+  # COM: NO CLEAR MAPPING
+  # Christian - Congregational -> Congregational
+  COL: 1066
+  # Christian - Eastern Orthodox -> Eastern Orthodox
+  EOT: 1068
+  # Christian - Evangelical Church -> Evangelical Covenant **
+  EVC: 1070
+  # Christian - Episcopalian -> Episcopalian
+  EPI: 1069
+  # Christian - Free Will Baptist	-> ??
+  # FWB: NO CLEAR MAPPING
+  # Christian - Friends -> Friends
+  FRQ: 1071
+  # Christian - Full Gospel -> ??
+  # FUL: NO CLEAR MAPPING
+  # Christian - Greek Orthodox -> ??
+  # GRE: NO CLEAR MAPPING
+  # Christian - Jehovah's Witness	-> Jehovah's Witnesses
+  JWN: 1025
+  # Christian - Latter-day Saints	-> Latter Day Saints
+  MOM: 1027
+  # Christian - Lutheran -> Lutheran
+  LUT: 1028
+  # Christian - Lutheran Missouri Synod -> ??
+  # LMS: NO CLEAR MAPPING
+  # Christian - Mennonite	-> ??
+  # MEN: NO CLEAR MAPPING
+  # Christian - Methodist	-> Methodist
+  MET: 1073
+  # Christian - Church of the Nazarene -> Nazarene
+  NAZ: 1075
+  # Christian - Orthodox -> Orthodox
+  ORT: 1036
+  # Christian - Pentecostal -> Pentecostal
+  PEN: 1038
+  # Christian - Other Pentecostal	-> Pentecostal **
+  COP: 1038
+  # Christian - Presbyterian -> Presbyterian
+  PRE: 1076
+  # Christian - Protestant -> Protestant
+  PRO: 1077
+  # Christian - Other Protestant -> Protestant, No Denomination
+  PRC: 1078
+  # Christian - Reformed Church -> Reformed
+  REC: 1079
+  # Christian - Reorganized Church of Jesus Christ-LDS -> ??
+  # REO: NO CLEAR MAPPING
+  # Christian - Roman Catholic -> Roman Catholic Church
+  CAT: 1041
+  # Christian - Salvation Army -> Salvation Army
+  SAA: 1080
+  # Christian - Seventh Day Adventist	-> Adventist
+  SEV: 1001
+  # Christian - Southern Baptist-> ??
+  # SOU: NO CLEAR MAPPING
+  # Christian - United Church of Christ -> United Church of Christ
+  UCC: 1082
+  # Christian - United Methodist -> Methodist **
+  UMD: 1073
+  # Christian - Unitarian	-> Unitarian-Universalism
+  UNI: 1052
+  # Christian - Unitarian Universalist -> Unitarian Universalist
+  UNU: 1081
+  # Christian - Wesleyan -> ??
+  # WES: NO CLEAR MAPPING
+  # Christian - Wesleyan Methodist -> ??
+  # WMC: NO CLEAR MAPPING
+  # Christian - Other	-> Christian (non-Catholic, non-specific)	**
+  COT: 1013
+  # Confucian	-> Confucianism
+  CNF: 1014
+  # Disciples of Christ -> Disciples of Christ
+  DOC: 1067
+  # Ethnic Religionist
+  # ERL:   NO REASONABLE MATCH
+  # Hindu	-> Hinduism
+  HIN: 1020
+  # Hindu - Shaivites	-> ??
+  # HSH: 1020 NO CLEAR MAPPING
+  # Hindu - Vaishnavites -> ??
+  # HVA: 1020 NO CLEAR MAPPING
+  # Hindu - Other -> ??
+  # HOT: 1020 NO CLEAR MAPPING
+  # Jain -> Jainism
+  JAI: 1024
+  # Jewish -> Judaism
+  JEW: 1026
+  # Jewish - Conservative	-> ??
+  # JCO: NO CLEAR MAPPING
+  # Jewish - Orthodox	-> ??
+  # JOR: NO CLEAR MAPPING
+  # Jewish - Reconstructionist-> ??
+  # JRC: NO CLEAR MAPPING
+  # Jewish - Reform	-> ??
+  # JRF: NO CLEAR MAPPING
+  # Jewish - Renewal	-> ??
+  # JRN: NO CLEAR MAPPING
+  # Jewish - Other	-> ??
+  # JOT: NO CLEAR MAPPING
+  # Muslim -> Isalm
+  MOS: 1023
+  # Muslim - Shiite -> Shiite (Islam)
+  MSH: 1045
+  # Muslim - Sunni -> Sunni (Islam)
+  MSU: 1049
+  # Muslim - Other -> Isalm
+  MOT: 1023
+  # Native American	-> Native American
+  NAM: 1074
+  # New Religionist	-> New Age **
+  # NRL: NO CLEAR MAPPING
+  # Nonreligious -> Agnosticism
+  # NOE: NO CLEAR MAPPING
+  # Shintoist	-> Shinto
+  SHN: 1046
+  # Sikh -> Sikism
+  SIK: 1047
+  # Spiritist	-> Spiritualism
+  SPI: 1048
+  # Other
+  # OTH:   NO REASONABLE MATCH
+  # Unknown
+  # VAR:   NO REASONABLE MATCH
+
+DiagnosisRole: # maps DG1.6 to Encounter.diagnosis.use
+    A: AD
+
+MedicationRequestStatus:
+   AF: active
+   CA: cancelled
+   CR: cancelled
+   DC: stopped
+   DE: entered-in-error
+   DF: cancelled
+   DR: stopped
+   FU: active
+   HD: on-hold
+   HR: on-hold
+   NW: active
+   OC: cancelled
+   OD: stopped
+   OE: active
+   OF: active
+   OH: on-hold
+   OK: active
+   OP: active
+   OR: active
+   PY: active
+   RF: active
+   RL: active
+   RO: active
+   RP: unknown
+   RQ: active
+   RR: active
+   RU: active
+   A: active
+   IP: active
+   SC: active
+   CM: completed
+   ER: entered-in-error
+
+MedicationRequestCategory:
+  I: inpatient
+  O: outpatient
+
+###### IMPORTANT NOTES ON RELATIONSHIP MAPPINGS #########
+# Relationship mappings in tables PolicyholderRelationshipINxxx (V3RoleCode) and SubscriberRelationshipINxxx are coded in two different DIRECTIONS:  
+#  - Insured to Patient.  Example: Insured is parent of child patient. Used by IN1.17 and RelatedPerson.relationship.
+#  - Patient to Insured.  Example: Patient is child of insured parent. Used by IN2.72 and Coverage.relationship.
+# Insured is also referred to as Subscriber and Policyholder.  
+# Patient is also referred to as Beneficiary.
+
+# Mapping to RelatedPerson.relationship via POLICYHOLDER_RELATIONSHIP_IN117 data resolver.
+# Direction: Insured to Patient
+PolicyholderRelationshipIN117:
+# Codes from IN1.17 (values from table 0063) 
+  BRO: BRO
+# CGV: Care giver: no good match
+  CHD: CHILD
+# DEP: Handicapped dependent : no good match
+  DOM: DOMPART
+  EXF: EXT  
+  FCH: CHLDFOST 
+  FND: FRND
+  FTH: FTH 
+  GCH: GRNDCHILD
+# GRD: Guardian : no good match
+  GRP: GRP
+  MTH: MTH
+  NCH: NCHILD 
+# NON: None: no good match
+# OTH: Other: no good match
+  PAR: PRN
+  SCH: STPCHLD
+  SEL: ONESELF
+  SIB: SIB
+  SIS: SIS
+  SPO: SPS
+# UNK: Unknown : no good match
+# WRD: Ward of the court : no good match 
+
+# Mapping to RelatedPerson.relationship via POLICYHOLDER_RELATIONSHIP_IN272 data resolver.
+# Direction: Insured to Patient
+PolicyholderRelationshipIN272:
+# Codes from IN2.72 (values from table 0344) must be REVERSED for RelatedPerson.relationship.
+  01: ONESELF # Patient is insured : Self
+  02: SPS  # Spouse : Spouse
+  03: PRN  # Natural child financial responsibility : Parent
+  04: PRN  # Natural child no financial responsibility : Parent
+  05: PRN  # Step child : Parent
+  06: PRNFOST  # Foster child : Foster Parent
+# 07: Ward of the court: no good match
+# 08: Employee: no good match
+# 09: Unknown: no good match 
+# 10: Handicapped dependent input: no good match 
+# 11: Organ donor : no good match
+# 12: Cadaver donor : no good match
+  13: GRPRN # Grandchild : Grandparent 
+  14: EXT # Niece/Nephew :  Extended
+# 15: Injured planitiff : no good match
+# 16: Sponsored dependent : no good match
+  17: GRPRN # Minor dependent of a minor dependant input (grandchild dependent) : Grandparent
+  18: CHILD # Parent : Child 
+  19: GRNDCHILD # Grandparent : Grandchild 
+ 
+# Mapping to Coverage.relationship via SUBSCRIBER_RELATIONSHIP_IN117 data resolver.
+# Direction: Patient to Insured
+SubscriberRelationshipIN117:
+# Codes from IN1.17 (values from table 0063) must be REVERSED for Coverage.relationship
+# Think: If the patient is a XXXX, then the insured (subscriber) is their YYYY
+  BRO: other
+  CGV: other  # Caregiver
+  CHD: parent
+  DEP: other  # Handicapped dependent
+  DOM: common  # Life partner or common law spouse
+  EXF: other   # Extended family
+  FCH: parent 
+# FND: Friend: no good match
+  FTH: child # Father
+  GCH: other
+  GRD: other # Guardian
+  GRP: other
+  MTH: child
+  NCH: parent # Natural child 
+# NON: None: no good match
+  OTH: other     
+  PAR: child
+  SCH: parent # Step-child
+  SEL: self
+  SIB: other
+  SIS: other
+  SPO: spouse
+# UNK: Unknown : no good match
+# WRD: Ward of the court : no good match
+
+# Mapping to Coverage.relationship via SUBSCRIBER_RELATIONSHIP_IN272 data resolver.
+# Direction: Patient to Insured
+SubscriberRelationshipIN272:
+# Codes from IN2.72 (values from table 0344) NOT reversed.
+  01: self # Patient is insured 
+  02: spouse  # Spouse 
+  03: child  # Natural child financial responsibility
+  04: child  # Natural child no financial responsibility
+  05: child  # Step child 
+  06: child  # Foster child 
+# 07: Ward of the court: no good match
+# 08: Employee: no good match
+# 09: Unknown: no good match 
+  10: other # Handicapped dependent 
+# 11: Organ donor : no good match
+# 12: Cadaver donor : no good match
+  13: other # Grandchild 
+  14: other # Niece/Nephew 
+# 15: Injured planitiff : no good match
+# 16: Sponsored dependent : no good match
+  17: other # Minor dependent of a minor dependant input (grandchild dependent)
+  18: parent # Parent 
+  19: other # Grandparent 
+
+# Indicates whether a relatedPerson should be created for Coverage
+# Only a TRUE will cause relatedPerson to be created. At this time FALSE and no match are equivalent
+RelatedPersonNeededIN117:
+# Direction: Insured to Patient
+# Codes from IN1.17 (values from table 0063) 
+  BRO: TRUE
+# CGV: Care giver: no relatedPerson
+  CHD: TRUE
+# DEP: Handicapped dependent : no relatedPerson
+  DOM: TRUE
+  EXF: TRUE  
+  FCH: TRUE 
+# FND: Friend: no relatedPerson
+  FTH: TRUE 
+  GCH: TRUE
+# GRD: Guardian : no relatedPerson
+  GRP: TRUE
+  MTH: TRUE
+  NCH: TRUE 
+# NON: None: no relatedPerson
+# OTH: Other: no relatedPerson
+  PAR: TRUE
+  SCH: TRUE
+# SEL: Self: no relatedPerson
+  SIB: TRUE
+  SIS: TRUE
+  SPO: TRUE
+# UNK: Unknown : no relatedPerson
+# WRD: Ward of the court : no relatedPerson 
+
+RelatedPersonNeededIN272:
+# Codes from IN2.72 (values from table 0344) must be REVERSED for RelatedPerson.relationship.
+  01: # Patient is insured : no relatedPerson
+  02: TRUE  # Spouse : Spouse
+  03: TRUE  # Natural child financial responsibility : Parent
+  04: TRUE  # Natural child no financial responsibility : Parent
+  05: TRUE  # Step child : Parent
+  06: TRUE  # Foster child : Foster Parent
+# 07: Ward of the court: no relatedPerson
+# 08: Employee: no relatedPerson
+# 09: Unknown: no relatedPerson 
+# 10: Handicapped dependent input: no relatedPerson 
+# 11: Organ donor : no relatedPerson
+# 12: Cadaver donor : no relatedPerson
+  13: TRUE # Grandchild : Grandparent 
+  14: TRUE # Niece/Nephew :  Extended
+# 15: Injured planitiff : no relatedPerson
+# 16: Sponsored dependent : no relatedPerson
+  17: TRUE # Minor dependent of a minor dependant input (grandchild dependent) : Grandparent
+  18: TRUE # Parent : Child 
+  19: TRUE # Grandparent : Grandchild 

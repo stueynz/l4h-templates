@@ -1,0 +1,70 @@
+#
+# (C) Copyright IBM Corp. 2021, 2022
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# -----------------------------------------------------------------------------
+# Customisations for Te Whatu Ora Te Pae Hauora o Ruahine o Tararua MidCentral
+#
+#  30-Aug-2023 - Patient.Contact can be picked up from NK1 segments (we don't need separate RelatedPerson resources)
+#              - WebPAS likes to send weird PID-13, PID-14, NK1-5 and NK1-6 entries, where some repetitions don't 
+#                actually contain a PhoneNo or EmailAddress, but do have System and Equipment codes e.g: ^PRN^PH
+---
+# from OBX.Organisation.Contact
+purpose:
+   valueOf: datatype/CodeableConcept_var
+   condition: $code NOT_NULL || $display NOT_NULL || $system_code NOT_NULL || $text NOT_NULL
+   generateList: true
+   expressionType: resource
+   vars: 
+      system: SYSTEM_URL, $system_code
+
+relationship:
+  valueOf: datatype/CodeableConcept_var
+  condition: $alternateCode NOT_NULL
+  expressionType: resource
+  vars:
+     alternateCode: NK1.3.1
+     alternateDisplay: NK1.3.2
+  constants:
+     code: N
+     display: Next-of-Kin
+     system: http://terminology.hl7.org/CodeSystem/v2-0131
+     alternateSystem: https://standards.digital.health.nz/ns/central-region/contact-relationship
+
+name:
+  valueOf: datatype/HumanName
+  expressionType: resource
+  specs: NK1.2 | XPN | XCN | $contactNameXCN
+
+# from OBX.Organisation.Contact
+telecom_1:
+   condition: $contactPointXTN NOT_NULL
+   valueOf: datatype/ContactPoint
+   generateList: true
+   expressionType: resource
+   specs: $contactPointXTN
+
+# from NK1.6 - WORK phone/fax/etc
+telecom_2:
+  condition: $isPopulated NOT_NULL
+  valueOf: datatype/ContactPoint
+  generateList: true
+  expressionType: resource
+  specs: NK1.6
+  vars:
+    isPopulated: XTN.1                  # field NK1.6 (in Specs) resolves into repeated instances of XTN - so check the XTN.1 field
+  constants:
+    use: work
+
+# from NK1.5- HOME phone/fax/etc
+telecom_3:
+  condition: $isPopulated NOT_NULL
+  valueOf: datatype/ContactPoint
+  generateList: true
+  expressionType: resource
+  specs: NK1.5
+  vars:
+    isPopulated: XTN.1                   # field NK1.5 (in Specs) resolves into repeated instances of XTN - so check the XTN.1 field
+  constants:
+    use: home

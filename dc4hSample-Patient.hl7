@@ -1,0 +1,17 @@
+MSH|^~\&|PROD_WebPAS^RPAS|MCDHB^G00033|Regional HUB^RHUB|RHIP^G09999|20220316091410||ADT^A31|341P0000000000462041|P|2.4
+EVN||20220316091358
+PID|||ZHY4846^two^three^pointOne&2.16.840.1.113883.2.18.2||MCH STEPHENS^STEVE^^^FR^^D||19720223000000|M|Stephens^Stephen^Frederick^^^^BAD|21^NZ Maori^NZHIS|100 Broadway Avenue^^Palmerston North^^4410^NEW ZEALAND^C~^^^^^NEW ZEALAND^M|1851|^PRN^PH~02758880032^ORN^CP|^WPN^PH|ENG^English^NHDD-132^U|U^Unknown^HL70002||||||21^NZ Maori^NZHIS~11^NZ European / Pakeha^NZHIS~32^Cook Island Maori^NZHIS||||Y||NZ^New Zealand citizen^RHIP_Resident_Status||N
+PD1|||Feilding Health Care^^12482^^^&2.16.840.1.113883.2.18.66.3.3.0|66665^Rerekura^Amber-Lea Aroha^^^Dr^^^&2.16.840.1.113883.2.18.66.3.2.0
+NK1|1|MCH BROADHURST^ELAINE^^^MRS|03^Sister^webPAS||^PRN^PH~027 8887743^ORN^CP|^WPN^PH
+NK1|2|STEPHANIE^MCH STEPHENS^^^MRS|01^Mother^webPAS||^PRN^PH~027 5 666 325^ORN^CP|^WPN^PH
+NK1|3|MCH PHILIPS^LOUISE^^^MISS|18^De Facto^webPAS||^PRN^PH~021 555 888 6^ORN^CP|^WPN^PH
+ZAL|
+ZAL|1|H2^Medical conditions^webPAS|B01^Clotting disorder^webPAS||20181211||||||20220308114354|theresaby^Theresa Byrne MDHB^webPAS|PNH^Palmerston North Hospital^webPAS|Patient has a clotting disorder. Due to vitamin K deficiency|1^^webPAS^^TPS
+ZAL|2|H3^Other allergies^webPAS|L01^Latex^webPAS|R08^Other allergy^webPAS|19761115|||||28375^Sundvall^Dan Mats Roger^^^Dr^^webPAS|20220304112939|theresaby^Theresa Byrne MDHB^webPAS|PNH^Palmerston North Hospital^webPAS|Allergy to latex|1^^webPAS^^TPS
+ZAL|3|H4^Infection prevention^webPAS|C01^CRE^webPAS||20220308|||||59720^CARTER^DAN^^^Mr^^webPAS|20220308114004|theresaby^Theresa Byrne MDHB^webPAS|PNH^Palmerston North Hospital^webPAS|Patient is currently infected with CRE.|1^^webPAS^^TPS
+ZAL|4|H5^Situational^webPAS|R01^Risk to others/staff^webPAS||20220301||||||20220308113326|theresaby^Theresa Byrne MDHB^webPAS|PNH^Palmerston North Hospital^webPAS|Patient shows violent behavior towards staff.|1^^webPAS^^TPS
+ZAL|5|H7^Disability alerts^webPAS|D03^Physical disability^webPAS||20201125||||||20220308113731|theresaby^Theresa Byrne MDHB^webPAS|PNH^Palmerston North Hospital^webPAS|Patient has a knee disibility - risk of falls is high|1^^webPAS^^TPS
+ZAL|6|NHIMWS^Medical Warning System^webPAS|^CRE||20220308|W|||||||4311^^NHIMWS||1^^NHIMWS
+ZAL|7|NHIMWS^Medical Warning System^webPAS|^Physical disability||20201120|W|||||||4311^^NHIMWS||2^^NHIMWS
+ZAL|8|NHIMWS^Medical Warning System^webPAS|^Clotting disorder||20181211|W|||||||4311^^NHIMWS||3^^NHIMWS
+ZLS|

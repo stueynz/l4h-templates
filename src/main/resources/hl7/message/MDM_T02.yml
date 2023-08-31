@@ -1,0 +1,67 @@
+#
+# (C) Copyright IBM Corp. 2021
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# FHIR Resources to extract from MDM_T02 message
+---
+resources:
+    - resourceName: MessageHeader
+      segment: MSH
+      resourcePath: resource/MessageHeader
+      repeats: false
+      isReferenced: false
+      additionalSegments: 
+        - EVN
+   
+    - resourceName: Patient
+      segment: PID
+      resourcePath: resource/Patient
+      repeats: false
+      isReferenced: true
+      additionalSegments:
+        - MSH
+
+    - resourceName: Encounter
+      segment: PV1
+      resourcePath: resource/Encounter
+      repeats: false
+      isReferenced: true
+      additionalSegments:
+        - EVN
+        - MSH
+
+    # This group name that contains the OBX matches the parser
+    - resourceName: Observation
+      segment: .OBX
+      resourcePath: resource/Observation
+      group: OBSERVATION
+      repeats: true
+      isReferenced: true
+      additionalSegments:
+        - MSH
+        - .NTE
+
+    - resourceName: ServiceRequest
+      segment: .ORC
+      group: COMMON_ORDER
+      resourcePath: resource/ServiceRequest
+      repeats: true
+      isReferenced: true
+      additionalSegments:
+        - .OBR
+        - .NTE
+        - MSH
+        - PV1
+        - PID   
+
+    - resourceName: DocumentReference
+      segment: TXA
+      resourcePath: resource/DocumentReference
+      repeats: true
+      additionalSegments:
+        - MSH
+        - PID
+        - COMMON_ORDER.ORC
+        - COMMON_ORDER.OBR
+        - OBSERVATION.OBX

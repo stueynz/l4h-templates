@@ -1,0 +1,42 @@
+#
+#  Te Whatu Ora
+#
+#  NZBase defines nzResidency and nzCitizenship as complex extensions with STATUS and SOURCE fields...
+#      - We're only using STATUS field in CentralRegion
+#
+---
+url:
+  condition: $urlString NOT_NULL
+  type: STRING
+  valueOf: $urlString
+
+extension:
+  generateList: true
+  expressionType: nested
+  expressions:
+    # - condition: $value NOT_NULL
+    #   valueOf: extension/Extension
+    #   expressionType: resource
+    #   constants:
+    #     KEY_NAME_SUFFIX: String
+    #     value: Passport
+    #     urlString: source
+
+    - expressionType: nested
+      specs: PID.22
+      generateList: false
+      expressionsMap:
+        url:
+          type: String
+          value: status
+        valueCodeableConcept:
+          valueOf: datatype/CodeableConcept_var
+          expressionType: resource
+          constants:
+              # alternateCode: 
+              # alternateDisplay: 
+              # alternateSystem: 
+          vars:
+              code: $code
+              display: $display
+              system:  $systemURL

@@ -1,0 +1,109 @@
+#
+# (C) Copyright IBM Corp. 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# FHIR Resources to extract from OML_O21 message
+---
+resources:
+    - resourceName: MessageHeader
+      segment: MSH
+      resourcePath: resource/MessageHeader
+      repeats: false
+      isReferenced: false
+      additionalSegments:
+
+    - resourceName: Patient
+      segment: .PID
+      group: PATIENT
+      resourcePath: resource/Patient
+      isReferenced: true
+      repeats: false
+      additionalSegments:
+          - .PD1
+          - MSH
+
+    - resourceName: Encounter
+      segment: .PV1
+      group: PATIENT.PATIENT_VISIT
+      resourcePath: resource/Encounter
+      isReferenced: true
+      repeats: false
+      additionalSegments:
+          - .PV2
+          - MSH
+
+    - resourceName: Specimen
+      segment: OBSERVATION_REQUEST.SPECIMEN.SPM
+      group: ORDER
+      resourcePath: resource/Specimen
+      repeats: true
+      isReferenced: true
+      additionalSegments:
+          - MSH
+
+    - resourceName: AllergyIntolerance
+      segment: .AL1
+      resourcePath: resource/AllergyIntolerance
+      group: PATIENT
+      repeats: true
+      additionalSegments:
+          - MSH
+
+    - resourceName: AllergyIntolerance
+      segment: .PRIOR_RESULT.AL1
+      resourcePath: resource/AllergyIntolerance
+      group: ORDER.OBSERVATION_REQUEST
+      repeats: true
+      additionalSegments:
+          - MSH
+
+    - resourceName: Condition
+      segment: .DG1
+      group: ORDER.OBSERVATION_REQUEST
+      resourcePath: resource/Condition
+      repeats: true
+      isReferenced: true
+      additionalSegments:
+          - .OBR
+          - MSH
+
+# Note: According to the HL7 spec, DG1 is not allowed at this level.  However, including this here given it was a user contribution to include this Condition.
+    - resourceName: Condition
+      segment: .DG1
+      group: ORDER.OBSERVATION_REQUEST.PRIOR_RESULT.ORDER_PRIOR
+      resourcePath: resource/Condition
+      repeats: true
+      isReferenced: true
+      additionalSegments:
+          - .OBR
+          - MSH
+
+# TODO: IN1 insurance support to be added
+# TODO: Add support to create a ServiceRequest from ORC when there is no OBR
+#    Note that OML_O21 messages are different than ORU_R01 messages:
+#    For ORU_R01: DiagnosticReport is required.  ServiceRequest is optional.
+#    For OML_O21, this should be updated such that: DiagnosticReport is OPTIONAL.  ServiceRequest is REQUIRED.
+
+    - resourceName: DiagnosticReport
+      segment: .OBSERVATION_REQUEST.OBR
+      group: ORDER
+      resourcePath: resource/DiagnosticReport
+      repeats: true
+      additionalSegments:
+          - .ORC
+          - .OBSERVATION_REQUEST.NTE
+          - MSH
+          - PATIENT.PID
+          - PATIENT.PATIENT_VISIT.PV1
+          # NOTE:  PID and PV1 are passed because they are used by the created Service Request
+
+    - resourceName: DiagnosticReport
+      segment: .OBR
+      group: ORDER.OBSERVATION_REQUEST.PRIOR_RESULT.ORDER_PRIOR
+      resourcePath: resource/DiagnosticReport
+      repeats: true
+      additionalSegments:
+          - .ORC
+          - .NTE
+          - MSH

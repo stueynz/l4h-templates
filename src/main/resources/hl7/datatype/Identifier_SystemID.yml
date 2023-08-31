@@ -1,0 +1,83 @@
+#
+# (C) Copyright IBM Corp. 2021
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Creates an identifier with a System: uri:id  instead of an assigner + reference + referenced object.
+#
+# ----------------------------------------------------------------------------
+# Customisations for Te Whatu Ora Te Pae Hauora o Ruahine o Tararua MidCentral
+#
+# 11-Aug-2023 - Adjusted mapping to match Regional HL7 Message Specification v1.14
+#             - $systemURL could be handed in by calling template
+---
+type_1:
+   valueOf: datatype/CodeableConcept
+   expressionType: resource
+   specs: CX.5 | $typeSegment
+   vars: 
+     # Because calculated system id's don't have text if there is a valid system, 
+     # see if there is a valid code and system as input to creating text in the CodeableConcept
+     identifierCoding: CODING_SYSTEM_V2_IDENTIFIER, CX.5 | $typeSegment
+
+type_2: # used in instance where objects are passed directly to the codeable concept instead of coming directly from a field
+  valueOf: datatype/CodeableConcept_var
+  generateList: true
+  expressionType: resource
+
+system_1: 
+     condition: $systemExists NOT_NULL
+     type: SYSTEM_ID
+     valueOf: CX.4 | CWE.4 |EI.2
+     expressionType: HL7Spec
+     vars:
+          systemExists: CX.4 | CWE.4 | EI.2
+
+# When a systemID is passed in, try looking it up.
+# If it doesn't resolve, create a system ID (urn:id:xxxx)
+system_2: 
+     condition: $systemID NOT_NULL
+     type: STRING
+     valueOf:  $systemLookup | $systemCreated 
+     expressionType: HL7Spec
+     vars: 
+          systemCreated: SYSTEM_ID, $systemID
+          systemLookup: SYSTEM_URL, $systemID
+
+# When a systemURL is pased in just use it
+system_3: 
+   condition: $systemURL NOT_NULL
+   value:  $systemURL
+
+# Because the value is required, the logic is within a nesting, so that
+# if either leg is successful, a result is provided to satisfy required.
+# If it comes from an SSN field, it is "cleaned", such as removing dashes.
+value: 
+     expressionType: nested
+     required: true  
+     vars:
+        cx5: String, CX.5
+     expressions:
+        - condition: $cx5 EQUALS SS
+          type: STRING
+          expressionType: HL7Spec
+          valueOf: $cx1
+          vars:
+               cx1: CLEAN_SSN, CX.1 | CWE.1 | EI.1 | $value
+        - condition: $cx5 NOT_EQUALS SS || $cx5 NULL
+          type: STRING
+          expressionType: HL7Spec
+          valueOf: CX.1 | CWE.1 | EI.1 | $value    
+
+period:  
+    valueOf: datatype/Period
+    expressionType: resource
+    vars: 
+       start: CX.7 | CWE.7 | XCN.19
+       end: CX.8 | CWE.8 | XCN.20
+
+use:
+   condition: $mrgUse NOT_NULL
+   value: $mrgUse
+   vars:
+      mrgUse: $use

@@ -1,0 +1,94 @@
+#
+# (C) Copyright IBM Corp. 2020, 2022
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# FHIR Resources to extract from ADT_A01 message
+# Customisations for Te Whatu Ora Te Pae Hauora o Ruahine o Tararua MidCentral
+#
+# 10-Aug-2023 - Adjusted mapping to match Regional HL7 Message Specification v1.14
+#             - Removed unsued segments:
+#                 - INSURANCE.IN1 and INSURANCE.IN2
+#                 - OBX  - to Observation
+#                 - AL1  - to AllergyIntolerance
+#                 - .IN1 - to Coverage
+#
+# 29-Aug-2023 - Added NK1 segment
+---
+resources:
+  - resourceName: MessageHeader
+    segment: MSH
+    resourcePath: resource/MessageHeader
+    repeats: false
+    isReferenced: false
+    additionalSegments:
+      - EVN
+
+  - resourceName: Patient
+    segment: PID
+    resourcePath: resource/Patient
+    repeats: false
+    isReferenced: true
+    additionalSegments:
+      - PD1
+      - MSH
+      - NK1
+      # - INSURANCE.IN1
+      # - INSURANCE.IN2
+
+  - resourceName: Encounter
+    segment: PV1
+    resourcePath: resource/Encounter
+    repeats: false
+    isReferenced: true
+    additionalSegments:
+      - PV2
+      - EVN
+      - MSH
+      - DG1
+
+  - resourceName: Condition
+    segment: DG1
+    resourcePath: resource/Condition
+    isReferenced: true
+    repeats: true
+    additionalSegments:
+      - MSH
+      - PID
+      - PV1
+
+  # - resourceName: Observation
+  #   segment: OBX
+  #   resourcePath: resource/Observation
+  #   repeats: true
+  #   isReferenced: true
+  #   additionalSegments:
+  #     - MSH
+
+  # - resourceName: AllergyIntolerance
+  #   segment: AL1
+  #   resourcePath: resource/AllergyIntolerance
+  #   repeats: true
+  #   additionalSegments:
+  #     - MSH
+
+  - resourceName: Procedure
+    segment: .PR1
+    group: PROCEDURE
+    resourcePath: resource/Procedure
+    repeats: true
+    additionalSegments:
+      - .ROL
+      - MSH
+      - PID
+      - PV1
+
+  # - resourceName: Coverage
+  #   segment: .IN1
+  #   group: INSURANCE
+  #   resourcePath: resource/Coverage
+  #   repeats: true
+  #   additionalSegments:
+  #     - MSH
+  #     - PV1
+  #     - .IN2

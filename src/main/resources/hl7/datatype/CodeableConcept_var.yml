@@ -1,0 +1,37 @@
+#
+# (C) Copyright IBM Corp. 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# 
+---
+# coding requires code,display and system defined as variables from the resource that calls this resource
+# Uses values of variables passed: $code, $text, $display, $system, $version
+# Uses values of variables passed: $alternateCode, $alternateDisplay, $alternateSystem, $alternateVersion to add second coding
+coding_1:
+    generateList: true
+    valueOf: datatype/Coding
+    expressionType: resource
+    condition: $alternateCode NOT_NULL
+    vars:
+        code: $alternateCode
+        display: $alternateDisplay
+        system: $alternateSystem
+        version: $alternateVersion
+
+coding_2:
+    generateList: true
+    valueOf: datatype/Coding
+    expressionType: resource
+    condition: $code NOT_NULL
+    # Coding uses these scope vars: 
+    # $code
+    # $system
+    # $display
+    # $version
+
+text:  
+     valueOf: $text
+     condition: $text NOT_NULL
+
+  

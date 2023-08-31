@@ -1,0 +1,108 @@
+#
+# (C) Copyright IBM Corp. 2020, 2022
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+resourceType: RelatedPerson
+#
+# Represents data that needs to be extracted for a RelatedPerson Resource in FHIR
+# reference: https://build.fhir.org/relatedperson.html
+# 
+# - NOTE- 
+# Related person gets many values from scope, so they do not need to be passed in: 
+#  IN1 and sub-fields
+#  $Patient 
+id:
+   type: STRING
+   valueOf: "GeneralUtils.generateResourceId()"
+   expressionType: JEXL
+
+identifier_1:
+   condition: $valueIn NOT_NULL
+   valueOf: datatype/Identifier_var
+   generateList: true
+   expressionType: resource
+   vars:
+      # For identifier.value; required for valid identifier, 
+      # does not require and not dependent on IN1.49.4 or IN1.49.5
+      valueIn: String, IN1.49.1 
+      # For identifier.system; systemCX will process and remove spaces
+      systemCX: IN1.49.4
+      # For identifier.type, code, system, & display.
+      # Because IN1.49.5 is an ID code, this will create a correct coding
+      # because it knows the table from position and looks up the display
+      coding: CODING_SYSTEM_V2_IDENTIFIER, IN1.49.5
+
+# Gets the SSN from IN2.2, formats and adds it as an ID
+identifier_2:
+   condition: $valueIn NOT_NULL
+   valueOf: datatype/Identifier_var
+   generateList: true
+   expressionType: resource
+   vars:
+     valueIn: CLEAN_SSN, IN2.2 # subscriber SSN
+   constants:
+      system: http://terminology.hl7.org/CodeSystem/v2-0203
+      code: SS
+      display: Social Security number    
+
+patient: 
+   valueOf: datatype/Reference
+   expressionType: resource
+   generateList: true
+   specs: $Patient
+
+# When IN1.17 has a value
+relationship_1a:
+   valueOf: datatype/CodeableConcept
+   expressionType: resource
+   generateList: true
+   condition: $coding NOT_NULL
+   vars:
+      coding: POLICYHOLDER_RELATIONSHIP_IN117, IN1.17
+      text: String, IN1.17.2
+
+# When IN1.17 is empty, use IN2.72 as the relationship
+relationship_1b:
+   valueOf: datatype/CodeableConcept
+   expressionType: resource
+   generateList: true
+   condition: $valueIn117 NULL && $coding NOT_NULL
+   vars:
+      coding: POLICYHOLDER_RELATIONSHIP_IN272, IN2.72
+      valueIn117: IN1.17.1
+      text: String, IN2.72.2      
+
+name:
+   valueOf: datatype/HumanName
+   generateList: true
+   expressionType: resource
+   specs: IN1.16 
+
+birthDate:
+   type: DATE
+   valueOf: IN1.18 
+   expressionType: HL7Spec
+
+gender:
+   type: ADMINISTRATIVE_GENDER
+   valueOf: IN1.43 
+   expressionType: HL7Spec
+
+address:
+   valueOf: datatype/Address
+   generateList: true
+   expressionType: resource
+   specs: IN1.19 
+
+telecom:
+   valueOf: datatype/ContactPoint
+   condition: $phoneNumber NOT_NULL || $localNumber NOT_NULL
+   generateList: true
+   expressionType: resource
+   specs: IN2.63
+   vars: 
+     phoneNumber: IN2.63.1
+     localNumber: IN2.63.7
+   constants:
+     use: home

@@ -1,0 +1,59 @@
+#
+# (C) Copyright IBM Corp. 2020, 2022
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# FHIR Resources to extract from VXU_V04 message
+---
+resources:
+    - resourceName: MessageHeader
+      segment: MSH
+      resourcePath: resource/MessageHeader
+      repeats: false
+      isReferenced: false
+      additionalSegments:
+
+    - resourceName: Patient
+      segment: PID
+      resourcePath: resource/Patient
+      isReferenced: true
+      repeats: false
+      additionalSegments:
+             - PD1
+             - MSH
+             - INSURANCE.IN1
+             - INSURANCE.IN2
+
+    - resourceName: Encounter
+      segment: .PV1
+      resourcePath: resource/Encounter
+      isReferenced: true
+      group: PATIENT
+      repeats: false
+      additionalSegments:
+             - .PV2
+             - MSH
+             - PID
+             - ORDER.OBSERVATION.OBX
+
+    - resourceName: Immunization
+      segment: .RXA
+      group: ORDER
+      resourcePath: resource/Immunization
+      repeats: true
+      isReferenced: false
+      additionalSegments:
+              - .ORC
+              - .RXR
+              - .OBSERVATION.OBX
+              - MSH
+              - PATIENT.PV1
+
+    - resourceName: Coverage
+      segment: .IN1
+      group: INSURANCE
+      resourcePath: resource/Coverage
+      repeats: true
+      additionalSegments:
+        - MSH
+        - .IN2

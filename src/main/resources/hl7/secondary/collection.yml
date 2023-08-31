@@ -1,0 +1,28 @@
+#
+# (C) Copyright Mubashir Kazia. 2021, 2022
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+collectedDateTime:
+  type: STRING
+  valueOf: "GeneralUtils.dateTimeWithZoneId(dateTimeIn,ZONEID)"
+  expressionType: JEXL
+  vars:
+    dateTimeIn: SPM.17
+
+quantity:
+  valueOf: datatype/Quantity
+  expressionType: resource
+  vars:
+    value: SPM.12.1
+    unit: SPM.12.2
+
+method:
+  valueOf: datatype/CodeableConcept
+  expressionType: resource
+  specs: SPM.7
+
+bodySite:
+  valueOf: datatype/CodeableConcept
+  expressionType: resource
+  specs: SPM.8

@@ -1,0 +1,38 @@
+#
+# (C) Copyright IBM Corp. 2021
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# ----------------------------------------------------------------------------
+# Customisations for Te Whatu Ora Te Pae Hauora o Ruahine o Tararua MidCentral
+#
+# 10-Aug-2023 - if $ietfCode is provided then put in two codings with central-region/raw-language and ietf:bcp:47 equivalents.
+---
+language_1:
+  valueOf: datatype/CodeableConcept_var
+  condition: $ietfCode NOT_NULL
+  expressionType: resource
+  specs: PID.15
+  constants:
+     system: https://standards.digital.health.nz/ns/central-region/raw-language
+     alternateSystem: urn:ietf:bcp:47
+  vars:
+     code: PID.15.1
+     display: PID.15.2
+     alternateCode: $ietfCode
+     alternateDisplay: $ietfDisplay
+
+language_2:
+  valueOf: datatype/CodeableConcept
+  condition: $ietfCode NULL
+  expressionType: resource
+  specs: PID.15
+
+
+preferred:
+  type: BOOLEAN
+  valueOf: $boolTrue
+  expressionType: HL7Spec
+  constants:
+    boolTrue: "true"
+
