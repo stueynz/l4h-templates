@@ -60,29 +60,32 @@
 
     <dependencies>
         <!-- LinuxForHealth - HL7v2 to FHIR Converter -->
-        <!-- <dependency>
-            <groupId>io.github.linuxforhealth</groupId>
-            <artifactId>hl7v2-fhir-converter</artifactId>
-            <version>1.0.19-Stuey-SNAPSHOT</version>
-        </dependency> -->
-
         <dependency>
             <groupId>io.github.linuxforhealth</groupId>
             <artifactId>hl7v2-fhir-converter</artifactId>
             <version>1.0.22-SNAPSHOT</version>
         </dependency>
 
+        <!-- HL7 v2 Stuff -->
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
             <artifactId>hapi-structures-v26</artifactId>
             <version>2.3</version>
         </dependency>
 
-        <!-- FHIR resource structures -->
+        <!-- FHIR stuff -->
+        <!-- We're doing FHIR Client API calls in test edition of CentralRegionUtils -->
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
             <artifactId>hapi-fhir-structures-r4</artifactId>
             <version>6.6.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-client</artifactId>
+            <version>6.6.2</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- slf4j - Logging  -->
