@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.hl7.fhir.r4.model.Address;
 import org.hl7.fhir.r4.model.BooleanType;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
@@ -31,7 +34,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import io.github.linuxforhealth.hl7.HL7ToFHIRConverter;
 
 class HL7ADT_NZCR_MessageTest {
-    // private static final Logger LOGGER = LoggerFactory.getLogger(HL7ADT_NZCR_MessageTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HL7ADT_NZCR_MessageTest.class);
 
     private HL7ToFHIRConverter ftv = new HL7ToFHIRConverter();
 
@@ -418,9 +421,11 @@ class HL7ADT_NZCR_MessageTest {
     @ValueSource(strings = { "ADT^A01", "ADT^A04", "ADT^A08"/* , "ADT^A13" */ })
     void testAdtA01_NZCR_EthnicityExtensions(String message) throws IOException {
                
+        LOGGER.debug("classpath = " + System.getProperty("java.class.path"));
+
         String hl7message = "MSH|^~\\&|TestSystem||TestTransformationAgent||20150502090000||" + message + "|controlID|P|2.6\r"
         + "EVN||20220316091358\r"
-        + "PID|||ZHY4846^^^&WebPAS||MCH STEPHENS^STEVE^^^FR^^D||19720223000000|M|Stephens^Stephen^Frederick^^^^BAD|21^NZ Maori^NZHIS|100 Broadway Avenue^^Palmerston North^^4410^NEW ZEALAND^C~^^^^^NEW ZEALAND^M|1851|^PRN^PH~02758880032^ORN^CP|^WPN^PH|ENG^English^NHDD-132^U|U^Unknown^HL70002|ANG^Church of England|||||" + 
+        + "PID|||ZHY4846^^^&WebPAS||MCH STEPHENS^STEVE^^^FR^^D||19720223000000|M|Stephens^Stephen^Frederick^^^^BAD|21^NZ Maori^NZHIS|100 Broadway Avenue^^Palmerston North^^4410^NEW ZEALAND^C~^^^^^NEW ZEALAND^M|1851|^PRN^PH~02758880032^ORN^CP|^WPN^PH|ENG^English^NHDD-132^U|U^Unknown^HL70002|R01^C of E/Anglican|||||" + 
         
            "21^NZ Maori^NZHIS~11^NZ European / Pakeha^NZHIS~32^Cook Island Maori^NZHIS|" + 
             
@@ -483,7 +488,7 @@ class HL7ADT_NZCR_MessageTest {
                                         break;
 
                                     case 32100:
-                                        assertThat(cdg.getDisplay()).isEqualTo("Cook Islands Maori");
+                                        assertThat(cdg.getDisplay()).isEqualTo("Cook Island Māori");
                                         break;
                                 }                               
                             });
@@ -819,7 +824,7 @@ class HL7ADT_NZCR_MessageTest {
                     assertThat(cc.getCoding())
                         .hasSize(2)
                         .satisfies( cdgs -> {
-                            assertThat(cdgs).filteredOn(cdg -> cdg.getSystem().equals("https://standards.digital.health.nz/ns/central-region/raw-language"))
+                            assertThat(cdgs).filteredOn(cdg -> cdg.getSystem().equals("https://standards.digital.health.nz/ns/central-region/pas-language"))
                                 .hasSize(1)
                                 .element(0).satisfies( cdg -> {
                                     assertThat(cdg.getCode()).isEqualTo(code);

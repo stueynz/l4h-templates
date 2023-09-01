@@ -34,20 +34,16 @@ class CentralRegionUtilsTest {
         assertThat(CentralRegionUtils.ynuDisplay(code)).isEqualTo(result);
     }
 
-
-    // Check one value from each ConceptMap (makes sure we haven't managed to get duplicate keys in our maps)...
+    // Check a value from each ConceptMap 
     @ParameterizedTest
-    @CsvSource({ "nzcr-nz-residency-map,CWH,yes", 
-                 "nzcr-ethnicity-2to4-map,21,21111"})
-    void get_conceptMapTranslate(String mapId, String inputCode, String result) {
-        assertThat(CentralRegionUtils.conceptMapTranslate(mapId, inputCode)).isEqualTo(result);
+    @CsvSource({ "nzcr-nz-residency-map,https://standards.digital.health.nz/ns/central-region/nz-residency-code,CWH,yes,Permanent Resident", 
+                 "nzcr-ethnicity-2to4-map,https://standards.digital.health.nz/ns/ethnic-group-level-2-code,21,21111,Māori",
+                 "nzcr-language-map,https://standards.digital.health.nz/ns/central-region/pas-language,MAO,mi,Māori",
+                 "nzcr-religion-map,https://standards.digital.health.nz/ns/central-region/patient-religion,R01,1005,Anglican"})
+
+    void get_codeTranslateToCodeAndDisplay(String mapId, String inputSystem, String inputCode, String resultCode, String resultDisplay) {
+        assertThat(CentralRegionUtils.translateCodeToCode(mapId, inputSystem, inputCode)).isEqualTo(resultCode);
+        assertThat(CentralRegionUtils.translateCodeToDisplay(mapId, inputSystem, inputCode)).isEqualTo(resultDisplay);
     }    
 
-    // Check one value from each CodeSystem (makes sure we haven't managed to get duplicate keys in our maps)...
-    @ParameterizedTest
-    @CsvSource({ "nzcr-nz-residency-map, https://standards.digital.health.nz/ns/nz-residency-code,CWH,Permanent Resident", 
-                 "nzcr-ethnicity-2to4-map, https://standards.digital.health.nz/ns/ethnic-group-level-4-code,53,African nfd"})
-    void get_codeSystemLookup(String mapId, String csId, Object inputCode, String result) {
-        assertThat(CentralRegionUtils.codeSystemLookup(mapId, csId, inputCode)).isEqualTo(result);
-    }    
 }
