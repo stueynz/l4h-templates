@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------------
 # Customisations for Te Whatu Ora Te Pae Hauora o Ruahine o Tararua MidCentral
 #
-# 10-Aug-2023 - if $ietfCode is provided then put in two codings with central-region/raw-language and ietf:bcp:47 equivalents.
+# 10-Aug-2023 - if $ietfCode is provided then put in two codings with central-region/pas-language and ietf:bcp:47 equivalents.
 ---
 language_1:
   valueOf: datatype/CodeableConcept_var
@@ -14,7 +14,7 @@ language_1:
   expressionType: resource
   specs: PID.15
   constants:
-     system: https://standards.digital.health.nz/ns/central-region/raw-language
+     system: https://standards.digital.health.nz/ns/central-region/pas-language
      alternateSystem: urn:ietf:bcp:47
   vars:
      code: PID.15.1

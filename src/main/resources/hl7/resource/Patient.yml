@@ -469,8 +469,8 @@ extension:
               system:  https://standards.digital.health.nz/ns/ethnic-group-level-4-code
               alternateSystem: https://standards.digital.health.nz/ns/ethnic-group-level-2-code
           vars:
-              code: CWE.1, CentralRegionUtils.conceptMapTranslate("nzcr-ethnicity-2to4-map", code)
-              display: CWE.1, CentralRegionUtils.codeSystemLookup("nzcr-ethnicity-2to4-map", "https://standards.digital.health.nz/ns/ethnic-group-level-4-code", display)
+              code: CWE.1, CentralRegionUtils.translateCodeToCode("nzcr-ethnicity-2to4-map", "https://standards.digital.health.nz/ns/ethnic-group-level-2-code", code)
+              display: CWE.1, CentralRegionUtils.translateCodeToDisplay("nzcr-ethnicity-2to4-map", "https://standards.digital.health.nz/ns/ethnic-group-level-2-code", display)
               alternateCode: CWE.1
               alternateDisplay: CWE.2
 
@@ -490,11 +490,12 @@ extension:
     - condition: $alternateCode NOT_NULL
       valueOf: extension/StatusAndSource
       expressionType: resource
+      specs: PID.28
       vars:
-        code: PID.28.1, CentralRegionUtils.conceptMapTranslate("nzcr-nz-residency-map", code)
-        display: PID.28.1, CentralRegionUtils.codeSystemLookup("nzcr-nz-residency-map", "https://standards.digital.health.nz/ns/nz-residency-code", display)
-        alternateCode: PID.28.1
-        alternateDisplay: PID.28.2
+        code: CWE.1, CentralRegionUtils.translateCodeToCode("nzcr-nz-residency-map", "https://standards.digital.health.nz/ns/central-region/nz-residency-code", code)
+        display: CWE.1, CentralRegionUtils.translateCodeToDisplay("nzcr-nz-residency-map", "https://standards.digital.health.nz/ns/central-region/nz-residency-code", display)
+        alternateCode: CWE.1
+        alternateDisplay: CWE.2
       constants:
         urlString: http://hl7.org.nz/fhir/StructureDefinition/nz-residency
         systemURL: https://standards.digital.health.nz/ns/nz-residency-code
@@ -512,8 +513,8 @@ extension:
           valueOf: datatype/CodeableConcept_var
           expressionType: resource
           vars:
-            code: PID.17.1, CentralRegionUtils.conceptMapTranslate("nzcr-religion-map", code)
-            display: PID.17.1, CentralRegionUtils.codeSystemLookup("nzcr-religion-map", "http://terminology.hl7.org/CodeSystem/v3-ReligiousAffiliation", display)
+            code: PID.17.1, CentralRegionUtils.translateCodeToCode("nzcr-religion-map", "https://standards.digital.health.nz/ns/central-region/patient-religion", code)
+            display: PID.17.1, CentralRegionUtils.translateCodeToDisplay("nzcr-religion-map", "https://standards.digital.health.nz/ns/central-region/patient-religion", display)
             alternateCode: PID.17.1 
             alternateDisplay: PID.17.2
           constants:
@@ -540,8 +541,8 @@ communication:
   expressionType: resource
   vars:
     language: PID.15
-    ietfCode: PID.15.1, CentralRegionUtils.conceptMapTranslate("nzcr-language-map", ietfCode)
-    ietfDisplay: PID.15.1, CentralRegionUtils.codeSystemLookup("nzcr-language-map", "urn:ietf:bcp:47", ietfDisplay)
+    ietfCode: PID.15.1, CentralRegionUtils.translateCodeToCode("nzcr-language-map", "https://standards.digital.health.nz/ns/central-region/pas-language", ietfCode)
+    ietfDisplay: PID.15.1, CentralRegionUtils.translateCodeToDisplay("nzcr-language-map", "https://standards.digital.health.nz/ns/central-region/pas-language", ietfDisplay)
 
 active:
   condition: $mrgSegment NOT_NULL
